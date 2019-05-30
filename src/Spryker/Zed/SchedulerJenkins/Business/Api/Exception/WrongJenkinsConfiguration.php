@@ -9,6 +9,6 @@ namespace Spryker\Zed\SchedulerJenkins\Business\Api\Exception;
 
 use Exception;
 
-class JenkinsBaseUrlNotFound extends Exception
+class WrongJenkinsConfiguration extends Exception
 {
 }
