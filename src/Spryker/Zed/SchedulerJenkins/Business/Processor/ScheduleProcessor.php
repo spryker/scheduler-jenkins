@@ -49,6 +49,9 @@ class ScheduleProcessor implements ScheduleProcessorInterface
         $schedulerResponseTransfer = $this->createSchedulerResponseTransfer($scheduleTransfer);
 
         foreach ($scheduleTransfer->getJobs() as $jobTransfer) {
+            if ($jobTransfer->getEnable() === false) {
+                continue;
+            }
             $executor = $executionStrategy->getExecutor($jobTransfer);
             $response = $executor->execute($configurationProvider, $jobTransfer);
 
