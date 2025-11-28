@@ -24,7 +24,7 @@
         </hudson.triggers.TimerTrigger>
     </triggers>
     {% endblock triggers %}
-    <concurrentBuild>false</concurrentBuild>
+    <concurrentBuild>{% if job.concurrent_build %}true{% else %}false{% endif %}</concurrentBuild>
     <builders>
         <hudson.tasks.Shell>
             <command>
