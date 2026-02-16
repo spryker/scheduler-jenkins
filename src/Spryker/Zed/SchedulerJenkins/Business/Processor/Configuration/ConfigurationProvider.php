@@ -104,6 +104,7 @@ class ConfigurationProvider implements ConfigurationProviderInterface
     {
         $schedulerJenkinsConfiguration = $this->schedulerJenkinsConfig->getJenkinsConfiguration();
 
+        // @phpstan-ignore function.alreadyNarrowedType (defensive programming for type safety)
         if (!is_array($schedulerJenkinsConfiguration)) {
             return [];
         }
