@@ -24,10 +24,6 @@ class ConfigurationProvider implements ConfigurationProviderInterface
      */
     protected $schedulerJenkinsConfig;
 
-    /**
-     * @param string $idScheduler
-     * @param \Spryker\Zed\SchedulerJenkins\SchedulerJenkinsConfig $schedulerJenkinsConfig
-     */
     public function __construct(string $idScheduler, SchedulerJenkinsConfig $schedulerJenkinsConfig)
     {
         $this->idScheduler = $idScheduler;
@@ -76,9 +72,6 @@ class ConfigurationProvider implements ConfigurationProviderInterface
         return rtrim($schedulerJenkinsConfiguration[SharedSchedulerJenkinsConfig::SCHEDULER_JENKINS_BASE_URL], '/') . '/' . $urlPath;
     }
 
-    /**
-     * @return bool
-     */
     public function isJenkinsCsrfProtectionEnabled(): bool
     {
         $schedulerJenkinsConfiguration = $this->getJenkinsConfigurationBySchedulerId($this->idScheduler);
@@ -95,11 +88,6 @@ class ConfigurationProvider implements ConfigurationProviderInterface
         return false;
     }
 
-    /**
-     * @param string $schedulerId
-     *
-     * @return array
-     */
     protected function getJenkinsConfigurationBySchedulerId(string $schedulerId): array
     {
         $schedulerJenkinsConfiguration = $this->schedulerJenkinsConfig->getJenkinsConfiguration();

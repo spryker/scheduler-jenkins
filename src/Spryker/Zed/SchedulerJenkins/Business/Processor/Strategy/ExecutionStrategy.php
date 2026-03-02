@@ -27,10 +27,6 @@ class ExecutionStrategy implements ExecutionStrategyInterface
      */
     protected $jobNames = [];
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Executor\ExecutorInterface $executorForExistingJob
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Executor\ExecutorInterface $executorForAbsentJob
-     */
     public function __construct(
         ExecutorInterface $executorForExistingJob,
         ExecutorInterface $executorForAbsentJob
@@ -51,11 +47,6 @@ class ExecutionStrategy implements ExecutionStrategyInterface
         return $this;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SchedulerJobTransfer $jobTransfer
-     *
-     * @return \Spryker\Zed\SchedulerJenkins\Business\Executor\ExecutorInterface
-     */
     public function getExecutor(SchedulerJobTransfer $jobTransfer): ExecutorInterface
     {
         return $this->doesJobExist($jobTransfer)
@@ -63,11 +54,6 @@ class ExecutionStrategy implements ExecutionStrategyInterface
             : $this->executorForAbsentJob;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SchedulerJobTransfer $jobTransfer
-     *
-     * @return bool
-     */
     protected function doesJobExist(SchedulerJobTransfer $jobTransfer): bool
     {
         return $this->jobNames[$jobTransfer->getName()] ?? false;

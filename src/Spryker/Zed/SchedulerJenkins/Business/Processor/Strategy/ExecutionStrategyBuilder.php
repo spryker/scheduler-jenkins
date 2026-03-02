@@ -44,12 +44,6 @@ class ExecutionStrategyBuilder implements ExecutionStrategyBuilderInterface
      */
     protected $executorForAbsentJob;
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\JenkinsApiInterface $jenkinsApi
-     * @param \Spryker\Zed\SchedulerJenkins\Dependency\Service\SchedulerJenkinsToUtilEncodingServiceInterface $utilEncodingService
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Executor\ExecutorInterface $executorForExistingJob
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Executor\ExecutorInterface $executorForAbsentJob
-     */
     public function __construct(
         JenkinsApiInterface $jenkinsApi,
         SchedulerJenkinsToUtilEncodingServiceInterface $utilEncodingService,
@@ -62,11 +56,6 @@ class ExecutionStrategyBuilder implements ExecutionStrategyBuilderInterface
         $this->executorForAbsentJob = $executorForAbsentJob;
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     *
-     * @return \Spryker\Zed\SchedulerJenkins\Business\Processor\Strategy\ExecutionStrategyInterface
-     */
     public function buildExecutionStrategy(ConfigurationProviderInterface $configurationProvider): ExecutionStrategyInterface
     {
         $jobs = $this->getJobs($configurationProvider);
@@ -79,12 +68,6 @@ class ExecutionStrategyBuilder implements ExecutionStrategyBuilderInterface
         return $this->mapJobCheckerFromArray($executionStrategy, $jobs[static::KEY_JOBS] ?? []);
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Processor\Strategy\ExecutionStrategy $jobChecker
-     * @param array $jobs
-     *
-     * @return \Spryker\Zed\SchedulerJenkins\Business\Processor\Strategy\ExecutionStrategy
-     */
     protected function mapJobCheckerFromArray(ExecutionStrategy $jobChecker, array $jobs): ExecutionStrategy
     {
         foreach ($jobs as $job) {

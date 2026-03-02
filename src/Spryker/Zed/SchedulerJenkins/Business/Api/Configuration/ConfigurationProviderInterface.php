@@ -23,8 +23,5 @@ interface ConfigurationProviderInterface
      */
     public function buildJenkinsApiUrl(string $urlPath): string;
 
-    /**
-     * @return bool
-     */
     public function isJenkinsCsrfProtectionEnabled(): bool;
 }

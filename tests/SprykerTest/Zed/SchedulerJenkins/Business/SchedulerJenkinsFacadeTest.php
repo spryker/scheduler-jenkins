@@ -41,9 +41,6 @@ class SchedulerJenkinsFacadeTest extends Unit
      */
     protected const ID_SCHEDULER = 'test';
 
-    /**
-     * @return void
-     */
     public function testSetupSchedulerJenkins(): void
     {
         $scheduleTransfer = $this->createSchedulerTransfer();
@@ -54,9 +51,6 @@ class SchedulerJenkinsFacadeTest extends Unit
         $this->assertEmpty($responseTransfer->getMessage());
     }
 
-    /**
-     * @return void
-     */
     public function testCleanSchedulerJenkins(): void
     {
         $scheduleTransfer = $this->createSchedulerTransfer();
@@ -67,9 +61,6 @@ class SchedulerJenkinsFacadeTest extends Unit
         $this->assertEmpty($responseTransfer->getMessage());
     }
 
-    /**
-     * @return void
-     */
     public function testSuspendSchedulerJenkinsJobs(): void
     {
         $scheduleTransfer = $this->createSchedulerTransfer();
@@ -80,9 +71,6 @@ class SchedulerJenkinsFacadeTest extends Unit
         $this->assertEmpty($responseTransfer->getMessage());
     }
 
-    /**
-     * @return void
-     */
     public function testResumeSchedulerJenkinsJobs(): void
     {
         $scheduleTransfer = $this->createSchedulerTransfer();
@@ -93,9 +81,6 @@ class SchedulerJenkinsFacadeTest extends Unit
         $this->assertEmpty($responseTransfer->getMessage());
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\SchedulerScheduleTransfer
-     */
     protected function createSchedulerTransfer(): SchedulerScheduleTransfer
     {
         return (new SchedulerScheduleTransfer())
@@ -118,9 +103,6 @@ class SchedulerJenkinsFacadeTest extends Unit
             ->setIdScheduler(static::ID_SCHEDULER);
     }
 
-    /**
-     * @return \Spryker\Zed\SchedulerJenkins\Business\SchedulerJenkinsFacadeInterface
-     */
     protected function getSchedulerFacade(): SchedulerJenkinsFacadeInterface
     {
         return (new SchedulerJenkinsFacade())
@@ -238,17 +220,11 @@ class SchedulerJenkinsFacadeTest extends Unit
         return $schedulerJenkinsConfigMock;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     protected function createSchedulerJenkinsResponseTransfer(): SchedulerJenkinsResponseTransfer
     {
         return (new SchedulerJenkinsResponseTransfer())->setStatus(true);
     }
 
-    /**
-     * @return \Spryker\Zed\SchedulerJenkins\Dependency\Service\SchedulerJenkinsToUtilEncodingServiceBridge
-     */
     protected function createUtilEncodingServiceBridge(): SchedulerJenkinsToUtilEncodingServiceBridge
     {
         return new SchedulerJenkinsToUtilEncodingServiceBridge(

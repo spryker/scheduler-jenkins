@@ -24,10 +24,6 @@ class ScheduleProcessor implements ScheduleProcessorInterface
      */
     protected $configurationProviderBuilder;
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Processor\Strategy\ExecutionStrategyBuilderInterface $executionStrategyBuilder
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Processor\Builder\ConfigurationProviderBuilderInterface $configurationProviderBuilder
-     */
     public function __construct(
         ExecutionStrategyBuilderInterface $executionStrategyBuilder,
         ConfigurationProviderBuilderInterface $configurationProviderBuilder
@@ -36,11 +32,6 @@ class ScheduleProcessor implements ScheduleProcessorInterface
         $this->configurationProviderBuilder = $configurationProviderBuilder;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SchedulerScheduleTransfer $scheduleTransfer
-     *
-     * @return \Generated\Shared\Transfer\SchedulerResponseTransfer
-     */
     public function processSchedule(SchedulerScheduleTransfer $scheduleTransfer): SchedulerResponseTransfer
     {
         $idScheduler = $scheduleTransfer->getIdScheduler();
@@ -62,11 +53,6 @@ class ScheduleProcessor implements ScheduleProcessorInterface
         return $schedulerResponseTransfer;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SchedulerScheduleTransfer $scheduleTransfer
-     *
-     * @return \Generated\Shared\Transfer\SchedulerResponseTransfer
-     */
     protected function createSchedulerResponseTransfer(SchedulerScheduleTransfer $scheduleTransfer): SchedulerResponseTransfer
     {
         return (new SchedulerResponseTransfer())

@@ -12,14 +12,6 @@ use Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProvide
 
 interface RequestBuilderInterface
 {
-    /**
-     * @param string $requestMethod
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     * @param string $urlPath
-     * @param string $body
-     *
-     * @return \Psr\Http\Message\RequestInterface
-     */
     public function buildPsrRequest(
         string $requestMethod,
         ConfigurationProviderInterface $configurationProvider,

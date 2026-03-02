@@ -12,10 +12,5 @@ use Generated\Shared\Transfer\SchedulerScheduleTransfer;
 
 interface ScheduleProcessorInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\SchedulerScheduleTransfer $scheduleTransfer
-     *
-     * @return \Generated\Shared\Transfer\SchedulerResponseTransfer
-     */
     public function processSchedule(SchedulerScheduleTransfer $scheduleTransfer): SchedulerResponseTransfer;
 }

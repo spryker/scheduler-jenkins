@@ -13,14 +13,6 @@ use Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProvide
 
 class RequestBuilder implements RequestBuilderInterface
 {
-    /**
-     * @param string $requestMethod
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     * @param string $urlPath
-     * @param string $body
-     *
-     * @return \Psr\Http\Message\RequestInterface
-     */
     public function buildPsrRequest(
         string $requestMethod,
         ConfigurationProviderInterface $configurationProvider,
@@ -40,9 +32,6 @@ class RequestBuilder implements RequestBuilderInterface
         return $request;
     }
 
-    /**
-     * @return array
-     */
     protected function getHeaders(): array
     {
         $httpHeader = [

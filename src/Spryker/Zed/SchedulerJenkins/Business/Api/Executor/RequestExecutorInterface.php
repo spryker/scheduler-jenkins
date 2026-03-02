@@ -13,12 +13,6 @@ use Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProvide
 
 interface RequestExecutorInterface
 {
-    /**
-     * @param \Psr\Http\Message\RequestInterface $request
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function execute(
         RequestInterface $request,
         ConfigurationProviderInterface $configurationProvider

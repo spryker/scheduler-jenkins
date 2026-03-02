@@ -12,10 +12,5 @@ use Spryker\Zed\SchedulerJenkins\Business\Executor\ExecutorInterface;
 
 interface ExecutionStrategyInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\SchedulerJobTransfer $jobTransfer
-     *
-     * @return \Spryker\Zed\SchedulerJenkins\Business\Executor\ExecutorInterface
-     */
     public function getExecutor(SchedulerJobTransfer $jobTransfer): ExecutorInterface;
 }

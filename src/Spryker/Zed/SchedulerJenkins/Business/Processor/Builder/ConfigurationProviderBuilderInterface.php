@@ -11,10 +11,5 @@ use Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProvide
 
 interface ConfigurationProviderBuilderInterface
 {
-    /**
-     * @param string $idScheduler
-     *
-     * @return \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface
-     */
     public function build(string $idScheduler): ConfigurationProviderInterface;
 }

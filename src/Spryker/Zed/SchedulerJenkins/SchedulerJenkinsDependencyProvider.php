@@ -44,11 +44,6 @@ class SchedulerJenkinsDependencyProvider extends AbstractBundleDependencyProvide
      */
     public const SERVICE_TWIG = 'twig';
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     public function provideBusinessLayerDependencies(Container $container): Container
     {
         $container = parent::provideBusinessLayerDependencies($container);
@@ -59,11 +54,6 @@ class SchedulerJenkinsDependencyProvider extends AbstractBundleDependencyProvide
         return $container;
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     protected function addGuzzleClient(Container $container): Container
     {
         $container->set(static::CLIENT_GUZZLE, function (Container $container) {
@@ -73,11 +63,6 @@ class SchedulerJenkinsDependencyProvider extends AbstractBundleDependencyProvide
         return $container;
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     protected function addTwigEnvironment(Container $container): Container
     {
         $container->set(static::TWIG_ENVIRONMENT, function (Container $container) {
@@ -108,19 +93,11 @@ class SchedulerJenkinsDependencyProvider extends AbstractBundleDependencyProvide
         return $twig;
     }
 
-    /**
-     * @return \Twig\Loader\FilesystemLoader
-     */
     protected function createFilesystemLoader(): FilesystemLoader
     {
         return new FilesystemLoader($this->getConfig()->getJenkinsTemplateFolders());
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
     protected function addUtilEncodingService(Container $container): Container
     {
         $container->set(static::SERVICE_UTIL_ENCODING, function (Container $container) {

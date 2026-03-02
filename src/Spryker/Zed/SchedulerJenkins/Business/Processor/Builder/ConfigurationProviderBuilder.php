@@ -18,19 +18,11 @@ class ConfigurationProviderBuilder implements ConfigurationProviderBuilderInterf
      */
     protected $schedulerJenkinsConfig;
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\SchedulerJenkinsConfig $schedulerJenkinsConfig
-     */
     public function __construct(SchedulerJenkinsConfig $schedulerJenkinsConfig)
     {
         $this->schedulerJenkinsConfig = $schedulerJenkinsConfig;
     }
 
-    /**
-     * @param string $idScheduler
-     *
-     * @return \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface
-     */
     public function build(string $idScheduler): ConfigurationProviderInterface
     {
         return new ConfigurationProvider($idScheduler, $this->schedulerJenkinsConfig);

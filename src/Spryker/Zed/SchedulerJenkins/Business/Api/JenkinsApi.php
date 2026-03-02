@@ -87,11 +87,6 @@ class JenkinsApi implements JenkinsApiInterface
      */
     protected $utilEncodingService;
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Builder\RequestBuilderInterface $requestBuilder
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Executor\RequestExecutorInterface $requestExecutor
-     * @param \Spryker\Zed\SchedulerJenkins\Dependency\Service\SchedulerJenkinsToUtilEncodingServiceInterface $utilEncodingService
-     */
     public function __construct(
         RequestBuilderInterface $requestBuilder,
         RequestExecutorInterface $requestExecutor,
@@ -102,11 +97,6 @@ class JenkinsApi implements JenkinsApiInterface
         $this->utilEncodingService = $utilEncodingService;
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function getJobs(ConfigurationProviderInterface $configurationProvider): SchedulerJenkinsResponseTransfer
     {
         $request = $this->requestBuilder->buildPsrRequest(
@@ -120,13 +110,6 @@ class JenkinsApi implements JenkinsApiInterface
         return $this->requestExecutor->execute($request, $configurationProvider);
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     * @param string $jobName
-     * @param string $jobXmlTemplate
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function updateJob(ConfigurationProviderInterface $configurationProvider, string $jobName, string $jobXmlTemplate): SchedulerJenkinsResponseTransfer
     {
         $request = $this->requestBuilder->buildPsrRequest(
@@ -141,13 +124,6 @@ class JenkinsApi implements JenkinsApiInterface
         return $this->requestExecutor->execute($request, $configurationProvider);
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     * @param string $jobName
-     * @param string $jobXmlTemplate
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function createJob(ConfigurationProviderInterface $configurationProvider, string $jobName, string $jobXmlTemplate): SchedulerJenkinsResponseTransfer
     {
         $request = $this->requestBuilder->buildPsrRequest(
@@ -162,12 +138,6 @@ class JenkinsApi implements JenkinsApiInterface
         return $this->requestExecutor->execute($request, $configurationProvider);
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     * @param string $jobName
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function deleteJob(ConfigurationProviderInterface $configurationProvider, string $jobName): SchedulerJenkinsResponseTransfer
     {
         $request = $this->requestBuilder->buildPsrRequest(
@@ -181,12 +151,6 @@ class JenkinsApi implements JenkinsApiInterface
         return $this->requestExecutor->execute($request, $configurationProvider);
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     * @param string $jobName
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function enableJob(ConfigurationProviderInterface $configurationProvider, string $jobName): SchedulerJenkinsResponseTransfer
     {
         $request = $this->requestBuilder->buildPsrRequest(
@@ -200,12 +164,6 @@ class JenkinsApi implements JenkinsApiInterface
         return $this->requestExecutor->execute($request, $configurationProvider);
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     * @param string $jobName
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function disableJob(ConfigurationProviderInterface $configurationProvider, string $jobName): SchedulerJenkinsResponseTransfer
     {
         $request = $this->requestBuilder->buildPsrRequest(
@@ -219,12 +177,6 @@ class JenkinsApi implements JenkinsApiInterface
         return $this->requestExecutor->execute($request, $configurationProvider);
     }
 
-    /**
-     * @param \Psr\Http\Message\RequestInterface $request
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     *
-     * @return \Psr\Http\Message\RequestInterface
-     */
     protected function extendRequestWithCsrfToken(RequestInterface $request, ConfigurationProviderInterface $configurationProvider): RequestInterface
     {
         if ($configurationProvider->isJenkinsCsrfProtectionEnabled()) {

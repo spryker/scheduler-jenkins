@@ -92,9 +92,6 @@ class SchedulerJenkinsConfig extends AbstractBundleConfig
         return basename($this->getJenkinsTemplatePath());
     }
 
-    /**
-     * @return string
-     */
     protected function getJenkinsTemplatePath(): string
     {
         return $this->get(SchedulerJenkinsConstants::JENKINS_TEMPLATE_PATH, static::DEFAULT_JENKINS_TEMPLATE_PATH);

@@ -11,10 +11,5 @@ use Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProvide
 
 interface ExecutionStrategyBuilderInterface
 {
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     *
-     * @return \Spryker\Zed\SchedulerJenkins\Business\Processor\Strategy\ExecutionStrategyInterface
-     */
     public function buildExecutionStrategy(ConfigurationProviderInterface $configurationProvider): ExecutionStrategyInterface;
 }

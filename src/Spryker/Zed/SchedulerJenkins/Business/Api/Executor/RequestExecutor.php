@@ -30,20 +30,11 @@ class RequestExecutor implements RequestExecutorInterface
      */
     protected $client;
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Dependency\Guzzle\SchedulerJenkinsToGuzzleInterface $client
-     */
     public function __construct(SchedulerJenkinsToGuzzleInterface $client)
     {
         $this->client = $client;
     }
 
-    /**
-     * @param \Psr\Http\Message\RequestInterface $request
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function execute(
         RequestInterface $request,
         ConfigurationProviderInterface $configurationProvider
@@ -62,11 +53,6 @@ class RequestExecutor implements RequestExecutorInterface
         return $this->createSchedulerJenkinsSuccessResponseTransfer($payload, $cookie);
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     *
-     * @return array
-     */
     protected function getRequestOptions(ConfigurationProviderInterface $configurationProvider): array
     {
         $requestOptions = [];
@@ -82,12 +68,6 @@ class RequestExecutor implements RequestExecutorInterface
         return $requestOptions;
     }
 
-    /**
-     * @param string $payload
-     * @param string|null $cookie
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     protected function createSchedulerJenkinsSuccessResponseTransfer(string $payload, ?string $cookie = null): SchedulerJenkinsResponseTransfer
     {
         return (new SchedulerJenkinsResponseTransfer())
@@ -96,11 +76,6 @@ class RequestExecutor implements RequestExecutorInterface
             ->setStatus(true);
     }
 
-    /**
-     * @param string $message
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     protected function createSchedulerJenkinsErrorResponseTransfer(string $message): SchedulerJenkinsResponseTransfer
     {
         return (new SchedulerJenkinsResponseTransfer())

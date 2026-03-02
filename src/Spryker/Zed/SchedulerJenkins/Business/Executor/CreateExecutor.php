@@ -25,10 +25,6 @@ class CreateExecutor implements ExecutorInterface
      */
     protected $jobTemplateGenerator;
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\JenkinsApiInterface $jenkinsApi
-     * @param \Spryker\Zed\SchedulerJenkins\Business\TemplateGenerator\JenkinsJobTemplateGeneratorInterface $jobTemplateGenerator
-     */
     public function __construct(
         JenkinsApiInterface $jenkinsApi,
         JenkinsJobTemplateGeneratorInterface $jobTemplateGenerator
@@ -37,12 +33,6 @@ class CreateExecutor implements ExecutorInterface
         $this->jobTemplateGenerator = $jobTemplateGenerator;
     }
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface $configurationProvider
-     * @param \Generated\Shared\Transfer\SchedulerJobTransfer $jobTransfer
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer
-     */
     public function execute(ConfigurationProviderInterface $configurationProvider, SchedulerJobTransfer $jobTransfer): SchedulerJenkinsResponseTransfer
     {
         $jobTransfer->requireName();

@@ -43,10 +43,6 @@ class XmlJenkinsJobTemplateGenerator implements JenkinsJobTemplateGeneratorInter
      */
     protected $schedulerJenkinsConfig;
 
-    /**
-     * @param \Spryker\Zed\SchedulerJenkins\Dependency\TwigEnvironment\SchedulerJenkinsToTwigEnvironmentInterface $twig
-     * @param \Spryker\Zed\SchedulerJenkins\SchedulerJenkinsConfig $schedulerJenkinsConfig
-     */
     public function __construct(
         SchedulerJenkinsToTwigEnvironmentInterface $twig,
         SchedulerJenkinsConfig $schedulerJenkinsConfig
@@ -55,11 +51,6 @@ class XmlJenkinsJobTemplateGenerator implements JenkinsJobTemplateGeneratorInter
         $this->schedulerJenkinsConfig = $schedulerJenkinsConfig;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SchedulerJobTransfer $jobTransfer
-     *
-     * @return string
-     */
     public function generateJobTemplate(SchedulerJobTransfer $jobTransfer): string
     {
         $jobTransfer
@@ -76,11 +67,6 @@ class XmlJenkinsJobTemplateGenerator implements JenkinsJobTemplateGeneratorInter
         return $xmlTemplate;
     }
 
-    /**
-     * @param \Generated\Shared\Transfer\SchedulerJobTransfer $jobTransfer
-     *
-     * @return \Generated\Shared\Transfer\SchedulerJobTransfer
-     */
     protected function extendSchedulerJobTransferWithLogRotateValue(SchedulerJobTransfer $jobTransfer): SchedulerJobTransfer
     {
         $jobPayload = $jobTransfer->getPayload();
