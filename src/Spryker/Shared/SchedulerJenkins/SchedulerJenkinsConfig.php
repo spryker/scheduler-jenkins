@@ -12,11 +12,15 @@ use Spryker\Shared\Kernel\AbstractSharedConfig;
 class SchedulerJenkinsConfig extends AbstractSharedConfig
 {
     /**
+     * @api
+     *
      * @var string
      */
     public const SCHEDULER_JENKINS_BASE_URL = 'base_url';
 
     /**
+     * @api
+     *
      * Defines credentials for Jenkins Api, e.g ['username', 'password']
      *
      * @var string
@@ -24,6 +28,8 @@ class SchedulerJenkinsConfig extends AbstractSharedConfig
     public const SCHEDULER_JENKINS_CREDENTIALS = 'credentials';
 
     /**
+     * @api
+     *
      * Defines if CSRF protection is enabled for Jenkins API calls.
      *
      * @var string
