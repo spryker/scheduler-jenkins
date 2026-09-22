@@ -24,4 +24,14 @@ interface ConfigurationProviderInterface
     public function buildJenkinsApiUrl(string $urlPath): string;
 
     public function isJenkinsCsrfProtectionEnabled(): bool;
+
+    /**
+     * Returns the timeout in seconds for a complete Jenkins API request.
+     */
+    public function getJenkinsRequestTimeout(): int;
+
+    /**
+     * Returns the timeout in seconds for establishing a connection to Jenkins.
+     */
+    public function getJenkinsConnectTimeout(): int;
 }

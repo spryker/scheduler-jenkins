@@ -35,4 +35,18 @@ class SchedulerJenkinsConfig extends AbstractSharedConfig
      * @var string
      */
     public const SCHEDULER_JENKINS_CSRF_ENABLED = 'csrf';
+
+    /**
+     * @api
+     *
+     * Defines the timeout in seconds for a complete Jenkins API request, e.g 30
+     */
+    public const string SCHEDULER_JENKINS_TIMEOUT = 'timeout';
+
+    /**
+     * @api
+     *
+     * Defines the timeout in seconds for establishing a connection to Jenkins, e.g 10
+     */
+    public const string SCHEDULER_JENKINS_CONNECT_TIMEOUT = 'connect_timeout';
 }

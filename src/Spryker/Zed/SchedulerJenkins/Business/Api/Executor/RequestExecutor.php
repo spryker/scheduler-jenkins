@@ -20,6 +20,10 @@ class RequestExecutor implements RequestExecutorInterface
      */
     protected const AUTH_KEY = 'auth';
 
+    protected const string TIMEOUT_KEY = 'timeout';
+
+    protected const string CONNECT_TIMEOUT_KEY = 'connect_timeout';
+
     /**
      * @var string
      */
@@ -55,7 +59,10 @@ class RequestExecutor implements RequestExecutorInterface
 
     protected function getRequestOptions(ConfigurationProviderInterface $configurationProvider): array
     {
-        $requestOptions = [];
+        $requestOptions = [
+            static::CONNECT_TIMEOUT_KEY => $configurationProvider->getJenkinsConnectTimeout(),
+            static::TIMEOUT_KEY => $configurationProvider->getJenkinsRequestTimeout(),
+        ];
 
         $jenkinsAuthCredentials = $configurationProvider->getJenkinsAuthCredentials();
 

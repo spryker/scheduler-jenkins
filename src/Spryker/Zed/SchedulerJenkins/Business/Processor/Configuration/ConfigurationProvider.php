@@ -88,6 +88,44 @@ class ConfigurationProvider implements ConfigurationProviderInterface
         return false;
     }
 
+    public function getJenkinsRequestTimeout(): int
+    {
+        return $this->resolveTimeout(
+            SharedSchedulerJenkinsConfig::SCHEDULER_JENKINS_TIMEOUT,
+            $this->schedulerJenkinsConfig->getDefaultJenkinsRequestTimeout(),
+        );
+    }
+
+    public function getJenkinsConnectTimeout(): int
+    {
+        return $this->resolveTimeout(
+            SharedSchedulerJenkinsConfig::SCHEDULER_JENKINS_CONNECT_TIMEOUT,
+            $this->schedulerJenkinsConfig->getDefaultJenkinsConnectTimeout(),
+        );
+    }
+
+    /**
+     * Guzzle reads a timeout of 0 as "wait forever", which is the unbounded behaviour these
+     * timeouts exist to remove. A missing, non-numeric or non-positive configuration value
+     * therefore falls back to the module default rather than being passed through.
+     */
+    protected function resolveTimeout(string $timeoutKey, int $defaultTimeout): int
+    {
+        $schedulerJenkinsConfiguration = $this->getJenkinsConfigurationBySchedulerId($this->idScheduler);
+
+        if (!array_key_exists($timeoutKey, $schedulerJenkinsConfiguration)) {
+            return $defaultTimeout;
+        }
+
+        $timeout = $schedulerJenkinsConfiguration[$timeoutKey];
+
+        if (!is_numeric($timeout) || (int)$timeout <= 0) {
+            return $defaultTimeout;
+        }
+
+        return (int)$timeout;
+    }
+
     protected function getJenkinsConfigurationBySchedulerId(string $schedulerId): array
     {
         $schedulerJenkinsConfiguration = $this->schedulerJenkinsConfig->getJenkinsConfiguration();

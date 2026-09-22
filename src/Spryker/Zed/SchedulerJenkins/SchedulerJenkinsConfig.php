@@ -22,6 +22,10 @@ class SchedulerJenkinsConfig extends AbstractBundleConfig
      */
     protected const DEFAULT_AMOUNT_OF_BUILDS_FOR_LOGFILE_ROTATION = 10;
 
+    protected const int DEFAULT_JENKINS_REQUEST_TIMEOUT = 30;
+
+    protected const int DEFAULT_JENKINS_CONNECT_TIMEOUT = 10;
+
     /**
      * @var string
      */
@@ -67,6 +71,22 @@ class SchedulerJenkinsConfig extends AbstractBundleConfig
     public function getAmountOfBuildsForLogFileRotation(): int
     {
         return $this->get(SchedulerJenkinsConstants::JENKINS_DEFAULT_AMOUNT_OF_BUILDS_FOR_LOGFILE_ROTATION, static::DEFAULT_AMOUNT_OF_BUILDS_FOR_LOGFILE_ROTATION);
+    }
+
+    /**
+     * @api
+     */
+    public function getDefaultJenkinsRequestTimeout(): int
+    {
+        return static::DEFAULT_JENKINS_REQUEST_TIMEOUT;
+    }
+
+    /**
+     * @api
+     */
+    public function getDefaultJenkinsConnectTimeout(): int
+    {
+        return static::DEFAULT_JENKINS_CONNECT_TIMEOUT;
     }
 
     /**
