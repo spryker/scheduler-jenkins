@@ -14,6 +14,8 @@ use Spryker\Zed\SchedulerJenkins\Business\Processor\Strategy\ExecutionStrategyBu
 
 class ScheduleProcessor implements ScheduleProcessorInterface
 {
+    protected const string ERROR_MESSAGE_JOB_FAILED = 'Job "%s": %s';
+
     /**
      * @var \Spryker\Zed\SchedulerJenkins\Business\Processor\Strategy\ExecutionStrategyBuilderInterface
      */
@@ -46,7 +48,7 @@ class ScheduleProcessor implements ScheduleProcessorInterface
             if ($response->getStatus() === false) {
                 return $schedulerResponseTransfer
                     ->setStatus(false)
-                    ->setMessage($response->getMessage());
+                    ->setMessage(sprintf(static::ERROR_MESSAGE_JOB_FAILED, $jobTransfer->getName(), $response->getMessage()));
             }
         }
 

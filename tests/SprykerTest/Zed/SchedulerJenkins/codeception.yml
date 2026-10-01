@@ -19,3 +19,11 @@ suites:
                 - Asserts
                 - \SprykerTest\Shared\Testify\Helper\Environment
                 - \SprykerTest\Shared\Testify\Helper\DependencyHelper
+
+    Dependency:
+        path: Dependency
+        actor: SchedulerJenkinsDependencyTester
+        modules:
+            enabled:
+                - Asserts
+                - \SprykerTest\Shared\Testify\Helper\Environment

@@ -26,6 +26,8 @@ class SchedulerJenkinsConfig extends AbstractBundleConfig
 
     protected const int DEFAULT_JENKINS_CONNECT_TIMEOUT = 10;
 
+    protected const int JENKINS_ERROR_RESPONSE_MAX_LENGTH = 1000;
+
     /**
      * @var string
      */
@@ -87,6 +89,18 @@ class SchedulerJenkinsConfig extends AbstractBundleConfig
     public function getDefaultJenkinsConnectTimeout(): int
     {
         return static::DEFAULT_JENKINS_CONNECT_TIMEOUT;
+    }
+
+    /**
+     * Specification:
+     * - Returns the maximum number of characters of a failed Jenkins response text included in the error message.
+     * - Longer response text is truncated.
+     *
+     * @api
+     */
+    public function getJenkinsErrorResponseMaxLength(): int
+    {
+        return static::JENKINS_ERROR_RESPONSE_MAX_LENGTH;
     }
 
     /**

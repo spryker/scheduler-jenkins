@@ -9,34 +9,46 @@ namespace Spryker\Zed\SchedulerJenkins\Business\Api\Executor;
 
 use Generated\Shared\Transfer\SchedulerJenkinsResponseTransfer;
 use Psr\Http\Message\RequestInterface;
-use RuntimeException;
+use Psr\Http\Message\ResponseInterface;
 use Spryker\Zed\SchedulerJenkins\Business\Api\Configuration\ConfigurationProviderInterface;
+use Spryker\Zed\SchedulerJenkins\Dependency\Guzzle\Exception\SchedulerJenkinsToGuzzleRequestException;
 use Spryker\Zed\SchedulerJenkins\Dependency\Guzzle\SchedulerJenkinsToGuzzleInterface;
+use Spryker\Zed\SchedulerJenkins\SchedulerJenkinsConfig;
 
 class RequestExecutor implements RequestExecutorInterface
 {
-    /**
-     * @var string
-     */
-    protected const AUTH_KEY = 'auth';
+    protected const string AUTH_KEY = 'auth';
 
     protected const string TIMEOUT_KEY = 'timeout';
 
     protected const string CONNECT_TIMEOUT_KEY = 'connect_timeout';
 
-    /**
-     * @var string
-     */
-    protected const HEADER_SET_COOKIE = 'set-cookie';
+    protected const string HEADER_SET_COOKIE = 'set-cookie';
 
-    /**
-     * @var \Spryker\Zed\SchedulerJenkins\Dependency\Guzzle\SchedulerJenkinsToGuzzleInterface
-     */
-    protected $client;
+    protected const string HEADER_JENKINS_ERROR = 'X-Error';
 
-    public function __construct(SchedulerJenkinsToGuzzleInterface $client)
-    {
-        $this->client = $client;
+    protected const string ERROR_MESSAGE_TRANSFER_FAILED = 'Jenkins request %s failed: %s';
+
+    protected const string ERROR_MESSAGE_RESPONSE_FAILED = 'Jenkins request %s failed with HTTP %d %s.';
+
+    protected const string ERROR_MESSAGE_JENKINS_ERROR = ' Jenkins error: %s.';
+
+    protected const string ERROR_MESSAGE_RESPONSE_TEXT = ' Response: %s';
+
+    protected const string REQUEST_DESCRIPTION = '%s %s';
+
+    protected const string TRUNCATION_MARKER = ' [...]';
+
+    protected const string PATTERN_NON_TEXT_HTML_ELEMENTS = '#<(script|style)\b[^>]*>.*?</\1>#is';
+
+    protected const string PATTERN_HTML_TAG = '#<[^>]*>#';
+
+    protected const string PATTERN_WHITESPACE = '#\s+#';
+
+    public function __construct(
+        protected SchedulerJenkinsToGuzzleInterface $client,
+        protected SchedulerJenkinsConfig $config
+    ) {
     }
 
     public function execute(
@@ -47,8 +59,10 @@ class RequestExecutor implements RequestExecutorInterface
 
         try {
             $response = $this->client->send($request, $requestOptions);
-        } catch (RuntimeException $runtimeException) {
-            return $this->createSchedulerJenkinsErrorResponseTransfer($runtimeException->getMessage());
+        } catch (SchedulerJenkinsToGuzzleRequestException $schedulerJenkinsToGuzzleRequestException) {
+            return $this->createSchedulerJenkinsErrorResponseTransfer(
+                $this->buildRequestExceptionMessage($request, $schedulerJenkinsToGuzzleRequestException),
+            );
         }
 
         $payload = $response->getBody()->getContents();
@@ -73,6 +87,74 @@ class RequestExecutor implements RequestExecutorInterface
         $requestOptions[static::AUTH_KEY] = $jenkinsAuthCredentials;
 
         return $requestOptions;
+    }
+
+    protected function buildRequestExceptionMessage(
+        RequestInterface $request,
+        SchedulerJenkinsToGuzzleRequestException $schedulerJenkinsToGuzzleRequestException
+    ): string {
+        $response = $schedulerJenkinsToGuzzleRequestException->getResponse();
+
+        if ($response === null) {
+            return $this->buildTransferFailedMessage($request, $schedulerJenkinsToGuzzleRequestException->getMessage());
+        }
+
+        return $this->buildResponseFailedMessage($request, $response);
+    }
+
+    protected function buildTransferFailedMessage(RequestInterface $request, string $reason): string
+    {
+        return sprintf(static::ERROR_MESSAGE_TRANSFER_FAILED, $this->getRequestDescription($request), $reason);
+    }
+
+    protected function buildResponseFailedMessage(RequestInterface $request, ResponseInterface $response): string
+    {
+        $message = sprintf(
+            static::ERROR_MESSAGE_RESPONSE_FAILED,
+            $this->getRequestDescription($request),
+            $response->getStatusCode(),
+            $response->getReasonPhrase(),
+        );
+
+        if ($response->hasHeader(static::HEADER_JENKINS_ERROR)) {
+            $message .= sprintf(static::ERROR_MESSAGE_JENKINS_ERROR, $response->getHeaderLine(static::HEADER_JENKINS_ERROR));
+        }
+
+        $responseText = $this->extractResponseText($response);
+
+        if ($responseText === '') {
+            return $message;
+        }
+
+        return $message . sprintf(static::ERROR_MESSAGE_RESPONSE_TEXT, $responseText);
+    }
+
+    protected function getRequestDescription(RequestInterface $request): string
+    {
+        return sprintf(static::REQUEST_DESCRIPTION, $request->getMethod(), (string)$request->getUri()->withUserInfo(''));
+    }
+
+    protected function extractResponseText(ResponseInterface $response): string
+    {
+        $responseBody = $this->truncateResponseText((string)$response->getBody());
+
+        $responseBody = preg_replace(static::PATTERN_NON_TEXT_HTML_ELEMENTS, ' ', $responseBody) ?? $responseBody;
+        $responseText = preg_replace(static::PATTERN_HTML_TAG, ' ', $responseBody) ?? $responseBody;
+        $responseText = html_entity_decode($responseText, ENT_QUOTES | ENT_HTML5);
+        $responseText = trim(preg_replace(static::PATTERN_WHITESPACE, ' ', $responseText) ?? $responseText);
+
+        return $responseText;
+    }
+
+    protected function truncateResponseText(string $responseText): string
+    {
+        $maxLength = $this->config->getJenkinsErrorResponseMaxLength();
+
+        if (mb_strlen($responseText) <= $maxLength) {
+            return $responseText;
+        }
+
+        return mb_substr($responseText, 0, $maxLength) . static::TRUNCATION_MARKER;
     }
 
     protected function createSchedulerJenkinsSuccessResponseTransfer(string $payload, ?string $cookie = null): SchedulerJenkinsResponseTransfer

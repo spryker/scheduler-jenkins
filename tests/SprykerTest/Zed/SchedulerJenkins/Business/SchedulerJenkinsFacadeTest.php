@@ -81,6 +81,25 @@ class SchedulerJenkinsFacadeTest extends Unit
         $this->assertEmpty($responseTransfer->getMessage());
     }
 
+    public function testSetupSchedulerJenkinsReturnsFailedJobNameAlongWithJenkinsError(): void
+    {
+        // Arrange
+        $scheduleTransfer = $this->createSchedulerTransfer();
+        $failedJenkinsResponseTransfer = (new SchedulerJenkinsResponseTransfer())
+            ->setStatus(false)
+            ->setMessage('Jenkins request failed with HTTP 500 Server Error.');
+
+        // Act
+        $responseTransfer = $this->getSchedulerFacade($failedJenkinsResponseTransfer)->setupJenkins($scheduleTransfer);
+
+        // Assert
+        $this->assertFalse($responseTransfer->getStatus());
+        $this->assertSame(
+            'Job "DE__test": Jenkins request failed with HTTP 500 Server Error.',
+            $responseTransfer->getMessage(),
+        );
+    }
+
     protected function createSchedulerTransfer(): SchedulerScheduleTransfer
     {
         return (new SchedulerScheduleTransfer())
@@ -103,17 +122,19 @@ class SchedulerJenkinsFacadeTest extends Unit
             ->setIdScheduler(static::ID_SCHEDULER);
     }
 
-    protected function getSchedulerFacade(): SchedulerJenkinsFacadeInterface
-    {
+    protected function getSchedulerFacade(
+        ?SchedulerJenkinsResponseTransfer $updateJobResponseTransfer = null
+    ): SchedulerJenkinsFacadeInterface {
         return (new SchedulerJenkinsFacade())
-            ->setFactory($this->getSchedulerBusinessFactoryMock());
+            ->setFactory($this->getSchedulerBusinessFactoryMock($updateJobResponseTransfer));
     }
 
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\SchedulerJenkins\Business\SchedulerJenkinsBusinessFactory
      */
-    protected function getSchedulerBusinessFactoryMock(): SchedulerJenkinsBusinessFactory
-    {
+    protected function getSchedulerBusinessFactoryMock(
+        ?SchedulerJenkinsResponseTransfer $updateJobResponseTransfer = null
+    ): SchedulerJenkinsBusinessFactory {
         $schedulerJenkinsBusinessFactoryMock = $this->getMockBuilder(SchedulerJenkinsBusinessFactory::class)
             ->onlyMethods(
                 [
@@ -127,7 +148,7 @@ class SchedulerJenkinsFacadeTest extends Unit
 
         $schedulerJenkinsBusinessFactoryMock
             ->method('createJenkinsApi')
-            ->willReturn($this->createJenkinsApiMock());
+            ->willReturn($this->createJenkinsApiMock($updateJobResponseTransfer));
 
         $schedulerJenkinsBusinessFactoryMock
             ->method('createConfigurationProviderBuilder')
@@ -161,8 +182,9 @@ class SchedulerJenkinsFacadeTest extends Unit
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\SchedulerJenkins\Business\Api\JenkinsApiInterface
      */
-    protected function createJenkinsApiMock(): JenkinsApiInterface
-    {
+    protected function createJenkinsApiMock(
+        ?SchedulerJenkinsResponseTransfer $updateJobResponseTransfer = null
+    ): JenkinsApiInterface {
         $jenkinsApiMock = $this->getMockBuilder(JenkinsApi::class)
             ->disableOriginalConstructor()
             ->onlyMethods([
@@ -187,7 +209,7 @@ class SchedulerJenkinsFacadeTest extends Unit
 
         $jenkinsApiMock
             ->method('updateJob')
-            ->willReturn($this->createSchedulerJenkinsResponseTransfer());
+            ->willReturn($updateJobResponseTransfer ?? $this->createSchedulerJenkinsResponseTransfer());
 
         $jenkinsApiMock
             ->method('deleteJob')

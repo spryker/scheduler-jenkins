@@ -16,6 +16,8 @@ interface SchedulerJenkinsToGuzzleInterface
      * @param \Psr\Http\Message\RequestInterface $request
      * @param array<string, mixed> $options
      *
+     * @throws \Spryker\Zed\SchedulerJenkins\Dependency\Guzzle\Exception\SchedulerJenkinsToGuzzleRequestException
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function send(RequestInterface $request, array $options = []): ResponseInterface;

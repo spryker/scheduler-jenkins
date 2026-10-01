@@ -173,6 +173,7 @@ class SchedulerJenkinsBusinessFactory extends AbstractBusinessFactory
     {
         return new RequestExecutor(
             $this->getGuzzleClient(),
+            $this->getConfig(),
         );
     }
 
